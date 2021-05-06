@@ -8,7 +8,7 @@ import setAuthToken from "./utils/setAuthToken";
 
 function App() {
   useEffect(() => {
-    setAuthToken(localStorage.token);
+    setAuthToken(localStorage.getItem("token"));
     store.dispatch(loadUser());
   }, []);
   return (
