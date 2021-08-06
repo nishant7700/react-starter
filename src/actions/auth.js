@@ -10,7 +10,7 @@ import {
   LOGOUT,
   GET_PROFILE,
 } from "./types";
-
+import setAuthToken from "../utils/setAuthToken";
 // Load User
 export const loadUser = () => async (dispatch) => {
   try {
@@ -66,7 +66,7 @@ export const login = (formData) => async (dispatch) => {
       type: LOGIN_SUCCESS,
       payload: res.data,
     });
-
+    setAuthToken(res.data.jwt);
     dispatch(loadUser());
   } catch (err) {
     if (err.response && err.response.data) {
