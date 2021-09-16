@@ -1,5 +1,5 @@
 {
-  "name": "stqcampaigns",
+  "name": "interior-craft",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -12,9 +12,12 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-helmet": "^6.1.0",
+    "react-image-magnify": "^2.7.4",
+    "react-img-zoom": "^0.1.0",
     "react-loading-skeleton": "^2.1.1",
     "react-owl-carousel": "^2.3.1",
     "react-redux": "^7.2.2",
+    "react-render-html": "^0.6.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.0",
     "redux": "^4.0.5",
