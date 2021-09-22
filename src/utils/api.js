@@ -1,9 +1,10 @@
 import axios from "axios";
 import store from "../store";
 import { LOGOUT } from "../actions/types";
+import { URI } from "../constants/constants";
 
 const api = axios.create({
-  baseURL: "https://api.savethequest.org/",
+  baseURL: URI,
   headers: {
     "Content-Type": "application/json",
   },

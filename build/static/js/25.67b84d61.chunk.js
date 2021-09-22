@@ -1,0 +1,2 @@
+(this.webpackJsonpstqcampaigns=this.webpackJsonpstqcampaigns||[]).push([[25],{218:function(t,s,c){"use strict";c.r(s);var e=c(0),n=(c(1),c(10)),a=c(33),i=c(31),j=c(32);s.default=Object(n.b)((function(t){return{}}),{})((function(t){return Object(e.jsxs)("div",{children:[Object(e.jsx)(j.a,{}),Object(e.jsx)(a.a,{title:"Blog"}),Object(e.jsx)(i.a,{})]})}))}}]);
+//# sourceMappingURL=25.67b84d61.chunk.js.map

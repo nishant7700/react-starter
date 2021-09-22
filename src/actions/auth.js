@@ -11,6 +11,7 @@ import {
   GET_PROFILE,
 } from "./types";
 
+import setAuthToken from "../utils/setAuthToken";
 // Load User
 export const loadUser = () => async (dispatch) => {
   try {
@@ -34,13 +35,18 @@ export const register = (formData) => async (dispatch) => {
       username: formData.email,
       email: formData.email,
       password: formData.password,
+      name: formData.name,
+      phone: formData.phone,
     };
+
     const res = await api.post("/auth/local/register", registeruser);
+    setAuthToken(res.data.jwt);
 
     dispatch({
       type: REGISTER_SUCCESS,
       payload: res.data,
     });
+
     dispatch(loadUser());
   } catch (err) {
     if (err.response && err.response.data) {
@@ -61,6 +67,58 @@ export const register = (formData) => async (dispatch) => {
 export const login = (formData) => async (dispatch) => {
   try {
     const res = await api.post("/auth/local", formData);
+    setAuthToken(res.data.jwt);
+
+    dispatch({
+      type: LOGIN_SUCCESS,
+      payload: res.data,
+    });
+
+    dispatch(loadUser());
+  } catch (err) {
+    if (err.response && err.response.data) {
+      const errors = err.response.data.message;
+      if (errors && errors.length > 0) {
+        const mainError = errors[0];
+        if (mainError.messages) {
+          mainError.messages.forEach((error) =>
+            dispatch(setAlert(error.message, "danger"))
+          );
+        }
+      }
+    }
+  }
+};
+// Login User
+export const facebookLogin = (token) => async (dispatch) => {
+  try {
+    const res = await api.get("/auth/facebook/callback?access_token=" + token);
+    setAuthToken(res.data.jwt);
+
+    dispatch({
+      type: LOGIN_SUCCESS,
+      payload: res.data,
+    });
+
+    dispatch(loadUser());
+  } catch (err) {
+    if (err.response && err.response.data) {
+      const errors = err.response.data.message;
+      if (errors && errors.length > 0) {
+        const mainError = errors[0];
+        if (mainError.messages) {
+          mainError.messages.forEach((error) =>
+            dispatch(setAlert(error.message, "danger"))
+          );
+        }
+      }
+    }
+  }
+};
+export const googleLogin = (token) => async (dispatch) => {
+  try {
+    const res = await api.get("/auth/google/callback?access_token=" + token);
+    setAuthToken(res.data.jwt);
 
     dispatch({
       type: LOGIN_SUCCESS,
@@ -92,9 +150,17 @@ export const forgetPassword = (formData) => async (dispatch) => {
       )
     );
   } catch (err) {
-    dispatch({
-      type: AUTH_ERROR,
-    });
+    if (err.response && err.response.data) {
+      const errors = err.response.data.message;
+      if (errors && errors.length > 0) {
+        const mainError = errors[0];
+        if (mainError.messages) {
+          mainError.messages.forEach((error) =>
+            dispatch(setAlert(error.message, "danger"))
+          );
+        }
+      }
+    }
   }
 };
 export const resetPassword = (formData) => async (dispatch) => {
@@ -118,6 +184,52 @@ export const resetPassword = (formData) => async (dispatch) => {
     }
   }
 };
+export const editUser = (id, formData) => async (dispatch) => {
+  try {
+    const res = await api.put(`/users/${id}`, formData);
+
+    console.log(res.data);
+    dispatch(setAlert("Profile Updated", "success"));
+    dispatch(loadUser());
+  } catch (err) {
+    if (err.response && err.response.data) {
+      const errors = err.response.data.message;
+      if (errors && errors.length > 0) {
+        const mainError = errors[0];
+        if (mainError.messages) {
+          mainError.messages.forEach((error) =>
+            dispatch(setAlert(error.message, "danger"))
+          );
+        }
+      }
+    }
+  }
+};
+export const changePassword = (formData) => async (dispatch) => {
+  try {
+    const res = await api.post("/password", formData);
+    console.log(res.data);
+    setAuthToken(res.data.jwt);
+    if (res.data) {
+      dispatch(setAlert("Your Password Changed Successfully", "success"));
+    }
+  } catch (err) {
+    if (err.response && err.response.data) {
+      const errors = err.response.data.message;
+      if (errors && errors.length > 0) {
+        const mainError = errors[0];
+        if (mainError.messages) {
+          mainError.messages.forEach((error) =>
+            dispatch(setAlert(error.message, "danger"))
+          );
+        }
+      }
+    }
+  }
+};
 
 // Logout
-export const logout = () => ({ type: LOGOUT });
+export const logout = () => async (dispatch) => {
+  dispatch({ type: LOGOUT });
+  loadUser();
+};

@@ -1,0 +1,11 @@
+.bold {
+  font-size: 18px !important;
+  /* font-weight: 600 !important; */
+}
+.contact-form-box {
+  background: #ffffff url(img/icon/contact-form.png) repeat-x scroll 0 0;
+  box-shadow: 0 5px 13px rgb(0 0 0 / 17%);
+  margin: 0 0 30px;
+  padding: 23px 23px;
+  margin-bottom: 30px;
+}

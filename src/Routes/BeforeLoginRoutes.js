@@ -16,7 +16,7 @@ const BeforeLoginRoutes = ({
       loading ? (
         <Spinner />
       ) : isAuthenticated ? (
-        <Redirect to={redirectTo ? redirectTo : "/"} />
+        <Redirect to={redirectTo ? redirectTo : "/my-account"} />
       ) : (
         <Component {...props} />
       )
